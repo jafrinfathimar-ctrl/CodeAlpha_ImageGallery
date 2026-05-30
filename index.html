@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Gallery</title>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#f4f4f4;
+}
+
+h1{
+color:#333;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:10px;
+padding:20px;
+}
+
+.gallery img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:10px;
+transition:0.4s;
+}
+
+.gallery img:hover{
+transform:scale(1.05);
+}#lightbox{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+#lightbox img{
+max-width:90%;
+max-height:80%;
+border-radius:10px;
+}
+
+#lightbox span{
+color:white;
+font-size:30px;
+cursor:pointer;
+margin-bottom:20px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1>My Image Gallery</h1>
+<div>
+
+<button onclick="filterImages('all')">
+All
+</button>
+
+<button onclick="filterImages('nature')">
+Nature
+</button>
+
+<button onclick="filterImages('animal')">
+Animal
+</button>
+
+</div>
+<div class="gallery">
+
+<img class="nature" src="https://picsum.photos/id/1015/300/200">
+
+<img class="nature" src="https://picsum.photos/id/1016/300/200">
+
+<img class="animal" src="https://picsum.photos/id/1025/300/200">
+
+<img class="nature" src="https://picsum.photos/id/1035/300/200">
+
+<img class="animal" src="https://picsum.photos/id/1040/300/200">
+
+<img class="nature" src="https://picsum.photos/id/1050/300/200">
+
+</div>
+<div id="lightbox">
+  <span onclick="closeImage()">✖</span>
+
+  <button onclick="prevImage()">Previous</button>
+
+  <img id="lightbox-img">
+
+  <button onclick="nextImage()">Next</button>
+</div>
+
+</body>
+<script>
+
+const images =
+document.querySelectorAll(".gallery img");
+
+const lightbox =
+document.getElementById("lightbox");
+
+const lightboxImg =
+document.getElementById("lightbox-img");
+
+let currentIndex = 0;
+
+images.forEach((img,index)=>{
+
+img.addEventListener("click",()=>{
+
+currentIndex = index;
+
+lightbox.style.display="flex";
+
+lightboxImg.src=img.src;
+
+});
+
+});
+
+function closeImage(){
+
+lightbox.style.display="none";
+
+}
+
+function nextImage(){
+
+currentIndex =
+(currentIndex + 1) % images.length;
+
+lightboxImg.src =
+images[currentIndex].src;
+
+}
+
+function prevImage(){
+
+currentIndex =
+(currentIndex - 1 + images.length)
+% images.length;
+
+lightboxImg.src =
+images[currentIndex].src;
+
+}
+function filterImages(category){
+
+images.forEach(img=>{
+
+if(category==="all"){
+
+img.style.display="block";
+
+}
+
+else if(img.classList.contains(category)){
+
+img.style.display="block";
+
+}
+
+else{
+
+img.style.display="none";
+
+}
+
+});
+
+}
+
+</script>
+</html>
